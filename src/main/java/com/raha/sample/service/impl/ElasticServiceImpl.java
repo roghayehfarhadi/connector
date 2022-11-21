@@ -47,7 +47,8 @@ public class ElasticServiceImpl implements ElasticSearchService {
             );
 
             boolean isSuccess = HttpStatus.valueOf(response.status().getStatus()).is2xxSuccessful();
-            log.info("........................ object created successfully ...........................");
+            if (isSuccess)
+                log.info("........................ object created successfully ...........................");
 
             return isSuccess;
         } catch (IOException | ElasticsearchException e) {
