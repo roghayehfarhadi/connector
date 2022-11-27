@@ -1,25 +1,6 @@
 version: '3'
 
 services:
-  elasticsearch:
-    container_name: elasticsearch
-    image: nexus3.snpb.app:8082/elasticsearch:7.13.2
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - cluster.initial_master_nodes=elasticsearch
-      - node.store.allow_mmap=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    networks:
-      - simple_kafka
   prometheus:
     container_name: prometheus
     image: nexus3.snpb.app:8082/prom/prometheus:v2.3.2
@@ -96,6 +77,25 @@ services:
       - kafka1_data:/bitnami/kafka
     depends_on:
       - zookeeper
+    networks:
+      - simple_kafka
+  elasticsearch:
+    container_name: elasticsearch
+    image: nexus3.snpb.app:8082/elasticsearch:7.13.2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.initial_master_nodes=elasticsearch
+      - node.store.allow_mmap=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
     networks:
       - simple_kafka
   kibana:
