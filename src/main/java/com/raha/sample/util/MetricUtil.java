@@ -9,6 +9,8 @@ public class MetricUtil {
 
     private static final String TYPE = "type";
     private static final String TOPIC = "topic";
+    private static final String MOON_METRIC_NAME = "moon_message_counter";
+    private static final String SUN_METRIC_NAME = "sun_message_counter";
     private final String moonTopic;
     private final String sunTopic;
     private final Counter moonPublishedMessage;
@@ -21,23 +23,23 @@ public class MetricUtil {
         this.moonTopic = moonTopic;
         this.sunTopic = sunTopic;
 
-        this.moonPublishedMessage = Counter.builder("moon_message_counter")
+        this.moonPublishedMessage = Counter.builder(MOON_METRIC_NAME)
                 .tag(TYPE, "published")
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
-        this.moonConsumedMessage = Counter.builder("moon_message_counter")
+        this.moonConsumedMessage = Counter.builder(MOON_METRIC_NAME)
                 .tag(TYPE, "Consumed")
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
 
-        this.sunPublishedMessage = Counter.builder("sun_message_counter")
+        this.sunPublishedMessage = Counter.builder(SUN_METRIC_NAME)
                 .tag(TYPE, "published")
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);
 
-        this.sunConsumedMessage = Counter.builder("sun_message_counter")
+        this.sunConsumedMessage = Counter.builder(SUN_METRIC_NAME)
                 .tag(TYPE, "Consumed")
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);
