@@ -9,7 +9,6 @@ public class MetricUtil {
 
     private static final String TYPE = "type";
     private static final String TOPIC = "topic";
-    private static final String KAFKA_METRIC_NAME = "kafka_messages_total";
     private final String moonTopic;
     private final String sunTopic;
     private final Counter moonPublishedMessage;
@@ -22,23 +21,23 @@ public class MetricUtil {
         this.moonTopic = moonTopic;
         this.sunTopic = sunTopic;
 
-        this.moonPublishedMessage = Counter.builder(KAFKA_METRIC_NAME)
+        this.moonPublishedMessage = Counter.builder("moon_message_counter")
                 .tag(TYPE, "published")
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
-        this.moonConsumedMessage = Counter.builder(KAFKA_METRIC_NAME)
+        this.moonConsumedMessage = Counter.builder("moon_message_counter")
                 .tag(TYPE, "Consumed")
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
 
-        this.sunPublishedMessage = Counter.builder(KAFKA_METRIC_NAME)
+        this.sunPublishedMessage = Counter.builder("sun_message_counter")
                 .tag(TYPE, "published")
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);
 
-        this.sunConsumedMessage = Counter.builder(KAFKA_METRIC_NAME)
+        this.sunConsumedMessage = Counter.builder("sun_message_counter")
                 .tag(TYPE, "Consumed")
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);

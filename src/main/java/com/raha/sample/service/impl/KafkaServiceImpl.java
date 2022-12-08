@@ -46,7 +46,7 @@ public class KafkaServiceImpl implements KafkaService {
     public void publish(String topic, String key, String value) {
         for (int i = 0; i < 10; i++) {
             kafkaProducer.send(new ProducerRecord<>(topic, key + i, value), logPublishedMessage(value));
-            metricUtil.incrementPublishedMessage( topic);
+            metricUtil.incrementPublishedMessage(topic);
         }
 
     }
