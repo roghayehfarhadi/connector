@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MetricUtil {
 
-    private static final String TYPE = "type";
     private static final String TOPIC = "topic";
+    private static final String TYPE = "type";
+    private static final String PUBLISHED_TYPE = "published";
+    private static final String CONSUMED_TYPE = "consumed";
     private static final String MOON_METRIC_NAME = "moon_message_counter";
     private static final String SUN_METRIC_NAME = "sun_message_counter";
     private final String moonTopic;
@@ -24,23 +26,23 @@ public class MetricUtil {
         this.sunTopic = sunTopic;
 
         this.moonPublishedMessage = Counter.builder(MOON_METRIC_NAME)
-                .tag(TYPE, "published")
+                .tag(TYPE, PUBLISHED_TYPE)
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
         this.moonConsumedMessage = Counter.builder(MOON_METRIC_NAME)
-                .tag(TYPE, "Consumed")
+                .tag(TYPE, CONSUMED_TYPE)
                 .tag(TOPIC, moonTopic)
                 .register(meterRegistry);
 
 
         this.sunPublishedMessage = Counter.builder(SUN_METRIC_NAME)
-                .tag(TYPE, "published")
+                .tag(TYPE, PUBLISHED_TYPE)
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);
 
         this.sunConsumedMessage = Counter.builder(SUN_METRIC_NAME)
-                .tag(TYPE, "Consumed")
+                .tag(TYPE, CONSUMED_TYPE)
                 .tag(TOPIC, sunTopic)
                 .register(meterRegistry);
     }
