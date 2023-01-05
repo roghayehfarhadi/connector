@@ -45,7 +45,7 @@ public class Application implements CommandLineRunner {
         kafkaService.publish(moonTopic, "id_", "hello moon");
         kafkaService.publish(sunTopic, "id_", "hello sun");
         kafkaService.subscribe(sunTopic);
-        kafkaStreamService.filter(moonTopic, (key, value) -> value.equals("hello sun"), cloudTopic);
+        kafkaStreamService.filter(moonTopic, (key, value) -> value.equals("hello moon"), cloudTopic);
         kafkaService.subscribe(cloudTopic);
         kafkaService.seekAndConsumeMessage(moonTopic, 0, 0, 5);
     }
