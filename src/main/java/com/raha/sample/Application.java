@@ -41,13 +41,13 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws InterruptedException {
         pingElasticsearch();
         logger.info("application is starting .................................");
-        rabbitTemplate.convertAndSend(rabbitMQConfigProps.getExchangeName(), rabbitMQConfigProps.getRoutingKey(), "herro");
         kafkaService.publish(moonTopic, "id_", "hello moon");
-        kafkaService.publish(sunTopic, "id_", "hello sun");
-        kafkaService.subscribe(sunTopic);
         kafkaStreamService.filter(moonTopic, (key, value) -> value.equals("hello moon"), cloudTopic);
         kafkaService.subscribe(cloudTopic);
+        kafkaService.publish(sunTopic, "id_", "hello sun");
+        kafkaService.subscribe(sunTopic);
         kafkaService.seekAndConsumeMessage(moonTopic, 0, 0, 5);
+        rabbitTemplate.convertAndSend(rabbitMQConfigProps.getExchangeName(), rabbitMQConfigProps.getRoutingKey(), "herro");
     }
 
     private void pingElasticsearch() throws InterruptedException {
