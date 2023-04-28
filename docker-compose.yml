@@ -45,40 +45,25 @@ services:
       - zookeeper_data:/bitnami/zookeeper
     networks:
       - simple_kafka
-  kafka0:
-    container_name: kafka0
+  kafka:
+    container_name: kafka
     image: bitnami/kafka:latest
     ports:
       - 9092:9092
     environment:
       - KAFKA_BROKER_ID=0
       - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka0:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
-      - kafka0_data:/bitnami/kafka
+      - kafka_data:/bitnami/kafka
     depends_on:
       - zookeeper
+    restart: always
     networks:
       - simple_kafka
-  kafka1:
-    container_name: kafka1
-    image: bitnami/kafka:latest
-    ports:
-      - 9093:9093
-    environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_LISTENERS=PLAINTEXT://:9093
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1:9093
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-    volumes:
-      - kafka1_data:/bitnami/kafka
-    depends_on:
-      - zookeeper
-    networks:
-      - simple_kafka
+
   elasticsearch:
     container_name: elasticsearch
     image: nexus3.snpb.app:8082/elasticsearch:7.13.2
@@ -140,8 +125,7 @@ services:
       - simple_kafka
     depends_on:
       - zookeeper
-      - kafka0
-      - kafka1
+      - kafka
       - rabbitmq
       - elasticsearch
       - kibana
@@ -153,9 +137,7 @@ volumes:
     driver: local
   zookeeper_data:
     driver: local
-  kafka0_data:
-    driver: local
-  kafka1_data:
+  kafka_data:
     driver: local
   esdata:
     driver: local
