@@ -2,7 +2,6 @@ package com.raha.sample;
 
 import com.raha.sample.config.properties.RabbitMQConfigProps;
 import com.raha.sample.service.KafkaService;
-import com.raha.sample.service.KafkaStreamService;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -25,9 +24,7 @@ public class Application implements CommandLineRunner {
 
     private final String moonTopic;
     private final String sunTopic;
-    private final String cloudTopic;
     private final KafkaService kafkaService;
-    private final KafkaStreamService kafkaStreamService;
     private final RestHighLevelClient restHighLevelClient;
     private final RabbitMQConfigProps rabbitMQConfigProps;
     private final RabbitTemplate rabbitTemplate;
@@ -40,10 +37,8 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws InterruptedException {
         pingElasticsearch();
-        logger.info("application is starting .................................");
         kafkaService.publish(moonTopic, "id_", "hello moon");
-        kafkaStreamService.filter(moonTopic, (key, value) -> value.equals("hello moon"), cloudTopic);
-        kafkaService.subscribe(cloudTopic);
+        kafkaService.subscribe(moonTopic);
         kafkaService.publish(sunTopic, "id_", "hello sun");
         kafkaService.subscribe(sunTopic);
         kafkaService.seekAndConsumeMessage(moonTopic, 0, 0, 5);

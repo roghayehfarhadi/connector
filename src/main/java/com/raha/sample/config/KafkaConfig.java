@@ -47,11 +47,6 @@ public class KafkaConfig {
 
 
     @Bean
-    public String cloudTopic() throws ExecutionException, InterruptedException {
-        return createTopic("cloud");
-    }
-
-    @Bean
     public KafkaProducer<String, String> kafkaProducer() {
         var properties = new Properties();
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigProps.getServerAddress());
